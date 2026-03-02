@@ -1,0 +1,88 @@
+* {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+    max-width: 100%;
+    color: rgb(0, 0, 0);
+}
+
+body {
+    background-color: #f9f9f9;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1rem;
+}
+
+.brand-name {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #ea7406;
+}
+
+.icon {
+    color: #ea7406;
+    font-size: 1rem;
+}
+
+.nav-links {
+    display: flex;
+    gap: 3rem;
+}
+
+.dashSymbol {
+    font-size: 0.9rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    font-weight: 600;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.date-container {
+    height: 3rem;
+    width: 60%;
+    background-color: #ffffff;
+    margin-top: 1rem;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.date-container .date:first-child {
+    background-color: #e1e1e1;
+}
+
+.date {
+    height: 2.5rem;
+    width: 2rem;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 5px;
+}
+
+.date:hover {
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+
+.dtmain {
+    font-size: 1.3rem;
+}
+
+.dtbtm {
+    font-size: 0.7rem;
+    color: #5d5d5d;
+}
