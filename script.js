@@ -9,7 +9,7 @@ function dateContainer() {
     
     for(let i = date; i < date + 21 ; i++){
 
-        let currDate = new Date(year, month, i);
+        let currDate = new Date(year, month, i-20);
         let currMonth = currDate.toLocaleString('default' , {month : 'short'});
 
         const dateCard = `
