@@ -10,6 +10,8 @@ body {
     background-color: #f2f2f2;
 }
 
+/* logo and nav bar */
+
 .nav {
     display: flex;
     justify-content: space-around;
@@ -43,11 +45,14 @@ body {
     font-weight: 600;
 }
 
+/* main body */
 main {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
+
+/* callender container or date container */
 
 .date-container {
     height: 3rem;
@@ -86,49 +91,209 @@ main {
 
 .dtbtm {
     font-size: 0.7rem;
-    color: #5d5d5d;
+    color: #3c3c3c;
 }
-.section{
+
+/* section containing cards  */
+.section {
     width: 60%;
     display: flex;
     gap: 1rem;
     margin-top: 1rem;
     display: flex;
 }
-.ctr{
+
+.heading {
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    color: #ea7406;
+}
+
+/* first section */
+.habits-ctr {
+    width: 60%;
+    height: 50vh;
+    background-color: #fcfcfc;
+    position: relative;
+}
+
+.comp-ctr {
+    width: 40%;
+    height: 50vh;
+    background-color: #fcfcfc;
+}
+
+/* second section */
+.ctr1 {
     width: 50%;
     height: 50vh;
     background-color: #fcfcfc;
     position: relative;
 }
-.habits-ctr{
-    width: 60%;
-    height: 60vh;
+
+.ctr2 {
+    width: 50%;
+    height: 30vh;
     background-color: #fcfcfc;
     position: relative;
 }
 
-.comp-ctr{
-    width: 40%;
-    height: 60vh;
-    background-color: #fcfcfc;
+/* form for add tasks */
+.form {
+    margin-left: 1rem;
+    margin-top: 0.5rem;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
 }
-.heading{
-    font-size: 1.2rem;
-    font-weight: 600;
-    padding: 0.5rem 0.5rem;
-    color: #ea7406;
-}
-.add{
-    position: absolute;
-    right: 0.5rem;
+
+.filter {
     top: 0.5rem;
-    border-radius: 5px;
-    padding: 0.2rem 0.5rem;
-    background-color: #ed8c30;
-    font-size: 0.9rem;
-    color: #ffffff;
+    right: 1rem;
+    position: absolute;
 }
-.add:hover{
+
+.filter-det {
+    color: #4d4d4d;
+}
+
+.dropdown {
+    background-color: #ffffffb7;
+    border-radius: 5px;
+    outline: none;
+}
+
+.dropdown:hover {
+    transform: translateY(-2px);
+}
+
+.form-elm {
+    display: flex;
+}
+
+.input {
+    margin-left: 1rem;
+    border: none;
+    border: 1px solid #bababa;
+    padding: 0.1rem 1rem;
+}
+
+.type {
+    color: #393939;
+    margin-bottom: 0.5rem;
+}
+
+.radio-btns {
+    margin-top: 1rem;
+}
+
+.radio-bt {
+    cursor: pointer;
+}
+
+.radio-bt:nth-of-type(1) {
+    accent-color: #EB4C4C;
+}
+
+.radio-bt:nth-of-type(2) {
+    accent-color: #FFA95A;
+}
+
+.radio-bt:nth-of-type(3) {
+    accent-color: #65c14e;
+}
+
+.btn-ctr {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.btn {
+    border: none;
+    padding: 0.2rem 0.5rem;
+    color: #ffffff;
+    background-color: #ed8c30;
+    border-radius: 3px;
+}
+
+.btn:hover {
     background-color: #ec7f19;
+    transform: translateY(-2px);
+}
+
+/* to do list card style */
+.list {
+    width: 100%;
+    max-height: 45vh;
+    align-items: center;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.list::-webkit-scrollbar {
+  width: 8px;
+  
+}
+
+.list::-webkit-scrollbar-thumb{
+    background-color:  #bdbdbd;
+    border-radius: 6px;
+}
+
+.list::-webkit-scrollbar-thumb:hover{
+    background-color: #b3b3b3;
+}
+.itm-ctr {
+    width: 100%;
+    height: 2rem;
+    display: flex;
+    gap: 0.2rem;
+    align-items: center;
+    position: relative;
+    margin-bottom: 0.5rem;
+}
+
+.prior {
+    height: 8px;
+    width: 8px;
+    border-radius: 100%;
+    margin-left: 0.5rem;
+}
+
+.high {
+    background-color: #EB4C4C;
+}
+
+.medium {
+    background-color: #FFA95A;
+}
+
+.low {
+    background-color: #65c14e;
+}
+
+.check {
+    position: absolute;
+    right: 1rem;
+}
+
+.task {
+    text-transform: capitalize;
+    font-size: 1.1rem;
+}
+
+.completed {
+    color: #464646b7;
+    text-decoration: line-through;
+}
+
+.fa-square-check {
+    color: green;
+}
+
+.space {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
 }
