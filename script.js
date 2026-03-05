@@ -1,12 +1,10 @@
 const dateCont = document.querySelector(".date-container");
-const btn = document.querySelector(".btn");
-const description = document.getElementById("input");
 const listContainer = document.querySelector(".list");
+const addToggle = document.getElementById('filter');
 
 dateContainer();
+addTask();
 let list = JSON.parse(localStorage.getItem('toDoList')) || [];
-console.log(list);
-
 
 function dateContainer() {
     let today = new Date();
@@ -25,34 +23,99 @@ function dateContainer() {
                     <div class="dtbtm">${currMonth}</div>
                 </div>
         `;
-
         dateCont.innerHTML += dateCard;
     }
 };
 
-btn.addEventListener('click', (evt) => {
-    const prioType = document.querySelector('input[name= "Priortype"]:checked');
-    if (description.value === '') return;
-    else descr = description.value;
+addToggle.addEventListener('change', (evt) => {
+    const form = document.querySelector('.form');
+    let toggle = evt.target.value;
 
-    let list = JSON.parse(localStorage.getItem('toDoList')) || [];
-
-    let i = list.length;
-    let date = new Date();
-    let today = date.toISOString().split('T')[0];
-    let prior = prioType.value;
-
-    const listItm = {
-        description: descr,
-        priority : prior,
-        date: today,
-        completed: false,
-    }
-
-    list.push(listItm);
-    localStorage.setItem('toDoList', JSON.stringify(list));
-
+    if (toggle === "tasks") {
+        form.innerHTML = ` <div class="form-elm">
+                        <div class="label">Add Task name</div>
+                        <input type="text" class="input" id="input" placeholder="Enter task" required>
+                    </div>
+                    <div class="radio-btns">
+                        <div class="type">Priority Type</div>
+                        <input type="radio" name="Priortype" value="high" class="radio-bt" required>
+                        High
+                        <input type="radio" name="Priortype" value="medium" class="radio-bt" required>
+                        Medium
+                        <input type="radio" name="Priortype" value="low" class="radio-bt" required>
+                        Low
+                    </div>
+                    <div class="btn-ctr">
+                        <button class="btn">add</button>
+                    </div>` 
+                    addTask();          
+    } else if (toggle === "habits") {
+        form.innerHTML = `<div class="form-elm">
+                        <div class="label">Add Habit name</div>
+                        <input type="text" class="input" id="input2" placeholder="Enter Habit name" required>
+                        </div>
+                        <div class="form-elm">
+                            <label for="filter" class="label">Habit Color</label>
+                            <input type="color" id="habit-color" value="#fa7900" class="color-picker">
+                        </div>
+                        <div class="form-elm">
+                        <label for="filter" class="label">Habit category</label>
+                        <select id="habit-type" name="habit-type" class="dropdown inputStyle">
+                            <option value="Fitness">Fitness</option>
+                            <option value="Study">Study</option>
+                            <option value="Self-care">Self care</option>
+                            <option value="Skill">Skill</option>
+                        </select>
+                    </div>
+                    <div class="form-elm">
+                        <label for="filter" class="label">Habit frequency</label>
+                        <select id="habit-type" name="habit-type" class="dropdown inputStyle">
+                            <option value="Daily">Daily</option>
+                            <option value="Weekly">Weekly</option>
+                            <option value="Custom">Custom</option>
+                        </select>
+                    </div>
+                    <div class="form-elm">
+                        <div class="label">Goal amount</div>
+                        <input type="number" class="input" id="input3" placeholder="Enter amount" required>
+                    </div>
+                    <div class="form-elm">
+                        <div class="label">Goal unit</div>
+                        <input type="text" class="input" id="input" placeholder="Enter unit" required>
+                    </div>
+                    <div class="form-elm">
+                        <div class="label">Start date</div>
+                        <input type="date" class="inputStyle" id="input3" required>
+                    </div>
+                    <div class="btn-ctr">
+                        <button class="btn2">add</button>
+                    </div>`
+    };
 });
+function addTask(){
+    const addBtn = document.querySelector('.btn');
+    addBtn.addEventListener('click', (evt) => {
+        const description = document.getElementById("input");
+        const prioType = document.querySelector('input[name="Priortype"]:checked');
+        if (description.value === '') return;
+        else descr = description.value;
+    
+        let list = JSON.parse(localStorage.getItem('toDoList')) || [];
+        let date = new Date();
+        let today = date.toISOString().split('T')[0];
+        let prior = prioType.value;
+    
+        const listItm = {
+            description: descr,
+            priority: prior,
+            date: today,
+            completed: false,
+        }
+    
+        list.push(listItm);
+        localStorage.setItem('toDoList', JSON.stringify(list));
+    });
+};
 
 function showTdL() {
     let list = JSON.parse(localStorage.getItem('toDoList')) || [];
