@@ -113,28 +113,28 @@ main {
 /* first section */
 .habits-ctr {
     width: 60%;
-    height: 50vh;
+    height: 45vh;
     background-color: #fcfcfc;
     position: relative;
 }
 
 .comp-ctr {
     width: 40%;
-    height: 50vh;
+    height: 45vh;
     background-color: #fcfcfc;
 }
 
 /* second section */
 .ctr1 {
     width: 50%;
-    height: 50vh;
+    height: 45vh;
     background-color: #fcfcfc;
     position: relative;
 }
 
 .ctr2 {
     width: 50%;
-    height: 30vh;
+    height: fit-content;
     background-color: #fcfcfc;
     position: relative;
 }
@@ -170,13 +170,19 @@ main {
 
 .form-elm {
     display: flex;
+    margin-bottom: 0.8rem;
+    align-items: center;
+    justify-content: space-between;
 }
-
+.label{
+    color: #393939;
+}
 .input {
+    width: 40%;
     margin-left: 1rem;
     border: none;
     border: 1px solid #bababa;
-    padding: 0.1rem 1rem;
+    padding: 0.1rem 0 0.1rem 1rem;
 }
 
 .type {
@@ -184,12 +190,9 @@ main {
     margin-bottom: 0.5rem;
 }
 
-.radio-btns {
-    margin-top: 1rem;
-}
-
 .radio-bt {
     cursor: pointer;
+    margin-bottom: 0.5rem;
 }
 
 .radio-bt:nth-of-type(1) {
@@ -208,10 +211,11 @@ main {
     width: 100%;
     display: flex;
     justify-content: center;
-    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
-.btn {
+.btn,
+.btn2 {
     border: none;
     padding: 0.2rem 0.5rem;
     color: #ffffff;
@@ -219,7 +223,8 @@ main {
     border-radius: 3px;
 }
 
-.btn:hover {
+.btn:hover,
+.btn2:hover {
     background-color: #ec7f19;
     transform: translateY(-2px);
 }
@@ -227,24 +232,26 @@ main {
 /* to do list card style */
 .list {
     width: 100%;
-    max-height: 45vh;
+    max-height: 40vh;
     align-items: center;
     overflow-y: auto;
     overflow-x: hidden;
 }
+
 .list::-webkit-scrollbar {
-  width: 8px;
-  
+    width: 8px;
+
 }
 
-.list::-webkit-scrollbar-thumb{
-    background-color:  #bdbdbd;
+.list::-webkit-scrollbar-thumb {
+    background-color: #bdbdbd;
     border-radius: 6px;
 }
 
-.list::-webkit-scrollbar-thumb:hover{
+.list::-webkit-scrollbar-thumb:hover {
     background-color: #b3b3b3;
 }
+
 .itm-ctr {
     width: 100%;
     height: 2rem;
@@ -296,4 +303,31 @@ main {
 .space {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
+}
+
+/* habits form */
+.color-picker {
+    width: 15px;
+    height: 15px;
+    border: 1px solid #b3b3b3;
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 0;
+    background: none;
+    margin-left: 1rem;
+}
+.color-picker::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.color-picker::-webkit-color-swatch {
+    border: none;
+    border-radius: 50%; 
+}
+
+.inputStyle{
+    border: none;
+    border: 1px solid #bababa;
+    border-radius: 5px;
+    color: #393939;
 }
