@@ -174,9 +174,11 @@ main {
     align-items: center;
     justify-content: space-between;
 }
-.label{
+
+.label {
     color: #393939;
 }
+
 .input {
     width: 40%;
     margin-left: 1rem;
@@ -316,18 +318,74 @@ main {
     background: none;
     margin-left: 1rem;
 }
+
 .color-picker::-webkit-color-swatch-wrapper {
     padding: 0;
 }
 
 .color-picker::-webkit-color-swatch {
     border: none;
-    border-radius: 50%; 
+    border-radius: 50%;
 }
 
-.inputStyle{
+.inputStyle {
     border: none;
     border: 1px solid #bababa;
     border-radius: 5px;
     color: #393939;
+}
+
+/* habit list container */
+
+.habits {
+    width: 100%;
+}
+
+.habit-ctr {
+    width: 95%;
+    height: 3rem;
+    display: flex;
+    justify-content: space-between;
+    margin-left: 0.5rem;
+}
+
+.left-top {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+}
+
+.h-color {
+    height: 8px;
+    width: 8px;
+    background-color: #cdcdcd;
+    border-radius: 50%;
+}
+
+.h-name {
+    text-transform: capitalize;
+    font-size: 1.1rem;
+}
+
+.h-categ {
+    font-size: 0.9rem;
+    color: #4d4d4d;
+    padding-left: 0.7rem;
+}
+
+.right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.h-check i {
+    font-size: 1.1rem;
+    color: #474747;
+}
+
+.quant {
+    font-size: 0.9rem;
+    color: #4d4d4d;
 }
