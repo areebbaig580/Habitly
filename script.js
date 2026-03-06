@@ -1,10 +1,10 @@
 const dateCont = document.querySelector(".date-container");
 const listContainer = document.querySelector(".list");
+const habitsContainer = document.querySelector('.habits');
 const addToggle = document.getElementById('filter');
 
 dateContainer();
 addTask();
-let list = JSON.parse(localStorage.getItem('toDoList')) || [];
 
 function dateContainer() {
     let today = new Date();
@@ -47,29 +47,30 @@ addToggle.addEventListener('change', (evt) => {
                     </div>
                     <div class="btn-ctr">
                         <button class="btn">add</button>
-                    </div>` 
-                    addTask();          
+                    </div>`
+        addTask();
     } else if (toggle === "habits") {
         form.innerHTML = `<div class="form-elm">
                         <div class="label">Add Habit name</div>
-                        <input type="text" class="input" id="input2" placeholder="Enter Habit name" required>
+                        <input type="text" class="input" id="habit-name" placeholder="Enter Habit name" required>
                         </div>
                         <div class="form-elm">
                             <label for="filter" class="label">Habit Color</label>
-                            <input type="color" id="habit-color" value="#fa7900" class="color-picker">
+                            <input type="color" id="habit-color" value="#a7a7a7" class="color-picker">
                         </div>
                         <div class="form-elm">
                         <label for="filter" class="label">Habit category</label>
-                        <select id="habit-type" name="habit-type" class="dropdown inputStyle">
+                        <select id="habit-categ" name="habit-type" class="dropdown inputStyle">
                             <option value="Fitness">Fitness</option>
                             <option value="Study">Study</option>
                             <option value="Self-care">Self care</option>
                             <option value="Skill">Skill</option>
+                            <option value="Personal">Personal</option>
                         </select>
                     </div>
                     <div class="form-elm">
                         <label for="filter" class="label">Habit frequency</label>
-                        <select id="habit-type" name="habit-type" class="dropdown inputStyle">
+                        <select id="habit-freq" name="habit-type" class="dropdown inputStyle">
                             <option value="Daily">Daily</option>
                             <option value="Weekly">Weekly</option>
                             <option value="Custom">Custom</option>
@@ -77,47 +78,49 @@ addToggle.addEventListener('change', (evt) => {
                     </div>
                     <div class="form-elm">
                         <div class="label">Goal amount</div>
-                        <input type="number" class="input" id="input3" placeholder="Enter amount" required>
+                        <input type="number" class="input" id="goal-amt" placeholder="Enter amount">
                     </div>
                     <div class="form-elm">
                         <div class="label">Goal unit</div>
-                        <input type="text" class="input" id="input" placeholder="Enter unit" required>
+                        <input type="text" class="input" id="goal-unit" placeholder="Enter unit">
                     </div>
                     <div class="form-elm">
                         <div class="label">Start date</div>
-                        <input type="date" class="inputStyle" id="input3" required>
+                        <input type="date" class="inputStyle" id="start-dt" required>
                     </div>
                     <div class="btn-ctr">
                         <button class="btn2">add</button>
                     </div>`
+        addHabit();
     };
 });
-function addTask(){
+function addTask() {
     const addBtn = document.querySelector('.btn');
+
     addBtn.addEventListener('click', (evt) => {
         const description = document.getElementById("input");
         const prioType = document.querySelector('input[name="Priortype"]:checked');
         if (description.value === '') return;
         else descr = description.value;
-    
+
         let list = JSON.parse(localStorage.getItem('toDoList')) || [];
         let date = new Date();
         let today = date.toISOString().split('T')[0];
         let prior = prioType.value;
-    
+
         const listItm = {
             description: descr,
             priority: prior,
             date: today,
             completed: false,
         }
-    
+
         list.push(listItm);
         localStorage.setItem('toDoList', JSON.stringify(list));
     });
 };
 
-function showTdL() {
+function showTasks() {
     let list = JSON.parse(localStorage.getItem('toDoList')) || [];
 
     for (let item of list) {
@@ -125,8 +128,7 @@ function showTdL() {
                         <div class= "prior ${item.priority}"></div>
                             <div class="task ${item.completed ? 'completed' : ''}">${item.description}</div>
                             <div class="check"><i class="fa-regular ${item.completed ? 'fa-square-check' : 'fa-square'}"></i></div>
-                        </div>
-                    
+                        </div>           
         `
         listContainer.insertAdjacentHTML('beforeend', card);
     }
@@ -154,6 +156,65 @@ function showTdL() {
             localStorage.setItem('toDoList', JSON.stringify(list));
         });
     });
-}
+};
+showTasks();
 
-showTdL();
+function addHabit() {
+    const addhabit = document.querySelector(".btn2");
+
+    addhabit.addEventListener('click', (evt) => {
+        const habit = document.getElementById('habit-name');
+        const colorSel = document.getElementById('habit-color');
+        const habitCat = document.getElementById('habit-categ');
+        const habitFreq = document.getElementById('habit-freq');
+        const goalAmt = document.getElementById('goal-amt');
+        const goalUnt = document.getElementById('goal-unit');
+        const startDt = document.getElementById('start-dt');
+
+        let list = JSON.parse(localStorage.getItem('habitList')) || [];
+
+        let name = habit.value;
+        let color = colorSel.value;
+        let habitCategory = habitCat.value;
+        let habitFrequency = habitFreq.value
+        let goalAmount = goalAmt.value;
+        let goalUnit = goalUnt.value;
+        let startDate = startDt.value;
+
+        const habitItm = {
+            name: name,
+            color: color,
+            habitCategory: habitCategory,
+            habitFrequency: habitFrequency,
+            goalAmount: goalAmount,
+            goalUnit: goalUnit,
+            startDate: startDate,
+        }
+
+        list.push(habitItm);
+        localStorage.setItem('habitList', JSON.stringify(list));
+    });
+};
+
+function showHabits() {
+    let habitList = JSON.parse(localStorage.getItem('habitList')) || [];
+
+    for (let itm of habitList) {
+        card = `<div class="habit-ctr">
+                        <div class="left">
+                            <div class="left-top">
+                                <div class="h-color" style="background-color: ${itm.color}"></div>
+                                <div class="h-name">${itm.name}</div>
+                            </div>
+                            <div class="h-categ">${itm.habitCategory}</div>
+                        </div>
+                        <div class="right">
+                            <div class="h-check"><i class="fa-solid fa-plus"></i></div>
+                            <div class="quant">${itm.goalAmount} ${itm.goalUnit}</div>
+                        </div>
+                    </div>`
+
+        habitsContainer.insertAdjacentHTML('beforeend', card);
+    };
+};
+showHabits();
