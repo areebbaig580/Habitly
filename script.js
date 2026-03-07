@@ -5,6 +5,7 @@ const addToggle = document.getElementById('filter');
 
 dateContainer();
 addTask();
+resetTasks();
 
 function dateContainer() {
     let today = new Date();
@@ -25,6 +26,10 @@ function dateContainer() {
         `;
         dateCont.innerHTML += dateCard;
     }
+};
+
+function showProgress() {
+    // To - do progress circle in bottom of date container 
 };
 
 addToggle.addEventListener('change', (evt) => {
@@ -158,6 +163,20 @@ function showTasks() {
     });
 };
 showTasks();
+
+function resetTasks() {
+    let today = new Date().toISOString().split('T')[0];
+    let lastVisit = localStorage.getItem('lastVisited');
+
+    if (lastVisit !== today) {
+        let list = JSON.parse(localStorage.getItem('toDoList')) || [];
+
+        let remainingTask = list.filter(itm => itm.completed === false);
+        localStorage.setItem('toDoList', JSON.stringify(remainingTask));
+
+        localStorage.setItem('lastVisited', today);
+    };
+};
 
 function addHabit() {
     const addhabit = document.querySelector(".btn2");
