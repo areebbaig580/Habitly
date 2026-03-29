@@ -6,6 +6,7 @@ const addToggle = document.getElementById('filter');
 dateContainer();
 addTask();
 resetTasks();
+updateProgress();
 
 function dateContainer() {
     let today = new Date();
@@ -61,7 +62,7 @@ addToggle.addEventListener('change', (evt) => {
                         </div>
                         <div class="form-elm">
                             <label for="filter" class="label">Habit Color</label>
-                            <input type="color" id="habit-color" value="#a7a7a7" class="color-picker">
+                            <input type="color" id="habit-color" value="#ffffff" class="color-picker">
                         </div>
                         <div class="form-elm">
                         <label for="filter" class="label">Habit category</label>
@@ -208,6 +209,7 @@ function addHabit() {
             goalAmount: goalAmount,
             goalUnit: goalUnit,
             startDate: startDate,
+            completed: false,
         }
 
         list.push(habitItm);
@@ -222,18 +224,77 @@ function showHabits() {
         card = `<div class="habit-ctr">
                         <div class="left">
                             <div class="left-top">
-                                <div class="h-color" style="background-color: ${itm.color}"></div>
-                                <div class="h-name">${itm.name}</div>
+
+                                <div class="h-name ${itm.completed ? 'h-name-clr' : ''}">${itm.name}</div>
                             </div>
-                            <div class="h-categ">${itm.habitCategory}</div>
                         </div>
                         <div class="right">
-                            <div class="h-check"><i class="fa-solid fa-plus"></i></div>
+                            <div class="h-check"><i class="fa-solid ${itm.completed ? 'fa-check' : 'fa-plus'}"></i></div>
                             <div class="quant">${itm.goalAmount} ${itm.goalUnit}</div>
                         </div>
                     </div>`
 
         habitsContainer.insertAdjacentHTML('beforeend', card);
     };
+    const habChBox = document.querySelectorAll('.h-check');
+
+    habChBox.forEach((box, index) => {
+        box.addEventListener('click', (evt) => {
+            const icon = box.querySelector('i');
+            console.log(`${index} was clicked`);
+
+            if (habitList[index].completed === false) {
+                icon.classList.remove('fa-plus');
+                icon.classList.add('fa-check');
+                box.parentElement.parentElement.firstElementChild.firstElementChild.firstElementChild.style.color = '#2CB67D';
+                habitList[index].completed = true;
+            } else if (habitList[index].completed === true) {
+                icon.classList.remove('fa-check');
+                icon.classList.add('fa-plus');
+                habitList[index].completed = false;
+            }
+
+            localStorage.setItem('habitList', JSON.stringify(habitList));
+        });
+    });
 };
 showHabits();
+
+function updateProgress() {
+    const ctx = document.getElementById('myChart');
+    const habitDet = document.querySelector('.habitDet');
+    const taskDet = document.querySelector('.taskDet');
+
+    let habitList = JSON.parse(localStorage.getItem('habitList')) || [];
+    let totHabits = habitList.length;
+    let compHabits = habitList.filter(h => h.completed === true).length;
+    let taskList = JSON.parse(localStorage.getItem('toDoList')) || [];
+    let totTasks = taskList.length;
+    let compTasks = taskList.filter(t => t.completed === true).length;
+
+    habitDet.innerHTML = `Habits completed today : ${compHabits}/${totHabits}`;
+    taskDet.innerHTML = ` Tasks completed today : ${compTasks}/${totTasks}`;
+
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Remaining habits', 'Completed Habits'],
+            datasets: [{
+                data: [totHabits - compHabits, compHabits],
+                backgroundColor: ['#e5e5e5', '#1ee0a9']
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            cutout: '60%'
+        }
+    });
+
+};
+
