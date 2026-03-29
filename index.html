@@ -7,6 +7,7 @@
     <title>Habit-tracker</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -14,7 +15,7 @@
         <div class="nav">
             <div class="brand-name"><i class="fa-solid fa-bridge icon"></i> Habitly</div>
             <div class="nav-links">
-                <a href=""><i class="fa-solid fa-chart-column dashSymbol"></i> Dashoard</a>
+                <a href="dashboard/dashboard.html"><i class="fa-solid fa-chart-column dashSymbol"></i> Dashoard</a>
             </div>
         </div>
     </header>
@@ -26,7 +27,24 @@
                 <div class="habits"></div>
             </div>
             <div class="comp-ctr">
-                <div class="heading">Completed</div>
+                <div class="heading">Progress</div>
+                <div class="chart-container">
+                    <canvas id="myChart" class="chart"></canvas>
+                    <div class="colorCardsCont">
+                        <div class="colorCard">
+                            <div class="completed-hab-clr"></div>
+                            <div class="colorname">Habits completed</div>
+                        </div>
+                        <div class="colorCard">
+                            <div class="remaining-habit-clr"></div>
+                            <div class="colorname">Habits remaining</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="details-ctr">
+                    <div class="habitDet"></div>
+                    <div class="taskDet"></div>
+                </div>
             </div>
         </div>
         <div class="section">
@@ -39,14 +57,14 @@
                 <div class="filter">
                     <label for="filter" class="filter-det">Add </label>
                     <select id="filter" name="filter" class="dropdown">
-                        <option value="Daily">Tasks</option>
-                        <option value="Monthly">Habits</option>
+                        <option value="tasks">Task</option>
+                        <option value="habits">Habit</option>
                     </select>
                 </div>
 
                 <form action="" class="form">
                     <div class="form-elm">
-                        <div class="label">Add description</div>
+                        <div class="label">Add Task name</div>
                         <input type="text" class="input" id="input" placeholder="Enter task" required>
                     </div>
                     <div class="radio-btns">
