@@ -14,17 +14,23 @@ function dateContainer() {
     let date = today.getDate();
     let month = today.getMonth();
     let year = today.getFullYear();
+    let completedHabits = JSON.parse(localStorage.getItem('completedHabits')) || [];
 
     for (let i = date; i < date + 23; i++) {
 
-        let currDate = new Date(year, month, i - 22);
+        let currDate = new Date(year, month, i - 21);
         let currMonth = currDate.toLocaleString('default', { month: 'short' });
-
+        let datestr = currDate.toISOString().split('T')[0];
+        let data = completedHabits.find(c => c.date === datestr);
+        let totHab = data ? data.totalHabits : 0;
+        let compHab = data ? data.completedLen : 0;
+        let percentage = (compHab / totHab) * 100 || 0;
+        
         const dateCard = `
         <div class="date">
-                    <div class="dtmain">${currDate.getDate()}</div>
+                    <div class="dtmain">${currDate.getDate() - 1}</div>
                     <div class="dtbtm">${currMonth}</div>
-                    <div class ="progress-circle"></div>
+                    <div class ="progress-circle" style = "background: conic-gradient(#f7a04f ${percentage}%, #e0e0e0 ${percentage}% )"></div>
                     </div>
         `;
         dateCont.innerHTML += dateCard;
@@ -239,7 +245,6 @@ function showHabits() {
     habChBox.forEach((box, index) => {
         box.addEventListener('click', (evt) => {
             const icon = box.querySelector('i');
-            console.log(`${index} was clicked`);
 
             if (habitList[index].completed === false) {
                 icon.classList.remove('fa-square');
@@ -260,18 +265,18 @@ function showHabits() {
 };
 showHabits();
 
-function resetHabits(){
+function resetHabits() {
     let habitList = JSON.parse(localStorage.getItem('habitList')) || [];
 
     let today = new Date().toISOString().split('T')[0];
     let date = localStorage.getItem('lastHabitReset');
 
-    if(today === date){
+    if (today === date) {
         return;
-    }else{
+    } else {
         today = new Date().toISOString().split('T')[0];
 
-        for(let itm of habitList){
+        for (let itm of habitList) {
             itm.completed = false;
         };
     }
@@ -318,28 +323,25 @@ function updateProgress() {
 
 };
 
-function completedHabits(){
+function completedHabits() {
     let completedHabits = JSON.parse(localStorage.getItem('completedHabits')) || [];
     let habitList = JSON.parse(localStorage.getItem('habitList')) || [];
     let today = new Date().toISOString().split('T')[0];
-    let comp = habitList.filter(c=> c.completed === true);
+    let comp = habitList.filter(c => c.completed === true);
     let totHabits = habitList.length;
     let compHabitsLen = comp.length;
-    
+
     let existingIndex = completedHabits.findIndex(entry => entry.date === today);
 
-    console.log(totHabits);
-    console.log(compHabitsLen);
-
     const compItms = {
-        date : today,
-        completed : comp,
-        totalHabits : totHabits,
-        completedLen : compHabitsLen, 
+        date: today,
+        completed: comp,
+        totalHabits: totHabits,
+        completedLen: compHabitsLen,
     }
 
-     if (existingIndex !== -1) {
-        completedHabits[existingIndex] = compItms; 
+    if (existingIndex !== -1) {
+        completedHabits[existingIndex] = compItms;
     } else {
         completedHabits.push(compItms);
     }
