@@ -7,6 +7,7 @@ dateContainer();
 addTask();
 resetTasks();
 updateProgress();
+resetHabits();
 
 function dateContainer() {
     let today = new Date();
@@ -14,23 +15,20 @@ function dateContainer() {
     let month = today.getMonth();
     let year = today.getFullYear();
 
-    for (let i = date; i < date + 21; i++) {
+    for (let i = date; i < date + 23; i++) {
 
-        let currDate = new Date(year, month, i - 20);
+        let currDate = new Date(year, month, i - 22);
         let currMonth = currDate.toLocaleString('default', { month: 'short' });
 
         const dateCard = `
         <div class="date">
                     <div class="dtmain">${currDate.getDate()}</div>
                     <div class="dtbtm">${currMonth}</div>
-                </div>
+                    <div class ="progress-circle"></div>
+                    </div>
         `;
         dateCont.innerHTML += dateCard;
     }
-};
-
-function showProgress() {
-    // To - do progress circle in bottom of date container 
 };
 
 addToggle.addEventListener('change', (evt) => {
@@ -224,12 +222,12 @@ function showHabits() {
         card = `<div class="habit-ctr">
                         <div class="left">
                             <div class="left-top">
-
+                                <div class = "habit-color"></div>
                                 <div class="h-name ${itm.completed ? 'h-name-clr' : ''}">${itm.name}</div>
                             </div>
                         </div>
                         <div class="right">
-                            <div class="h-check"><i class="fa-solid ${itm.completed ? 'fa-check' : 'fa-plus'}"></i></div>
+                            <div class="h-check"><i class="fa-regular ${itm.completed ? 'fa-square-check' : 'fa-square'}"></i></div>
                             <div class="quant">${itm.goalAmount} ${itm.goalUnit}</div>
                         </div>
                     </div>`
@@ -244,21 +242,43 @@ function showHabits() {
             console.log(`${index} was clicked`);
 
             if (habitList[index].completed === false) {
-                icon.classList.remove('fa-plus');
-                icon.classList.add('fa-check');
-                box.parentElement.parentElement.firstElementChild.firstElementChild.firstElementChild.style.color = '#2CB67D';
+                icon.classList.remove('fa-square');
+                icon.classList.add('fa-square-check');
+                box.parentElement.parentElement.firstElementChild.firstElementChild.firstElementChild.style.color = '#464646b7';
+                box.parentElement.parentElement.firstElementChild.firstElementChild.firstElementChild.style.textDecoration = 'line-through';
                 habitList[index].completed = true;
             } else if (habitList[index].completed === true) {
-                icon.classList.remove('fa-check');
-                icon.classList.add('fa-plus');
+                icon.classList.remove('fa-square-check');
+                icon.classList.add('fa-square');
                 habitList[index].completed = false;
             }
 
             localStorage.setItem('habitList', JSON.stringify(habitList));
+            completedHabits();
         });
     });
 };
 showHabits();
+
+function resetHabits(){
+    let habitList = JSON.parse(localStorage.getItem('habitList')) || [];
+
+    let today = new Date().toISOString().split('T')[0];
+    let date = localStorage.getItem('lastHabitReset');
+
+    if(today === date){
+        return;
+    }else{
+        today = new Date().toISOString().split('T')[0];
+
+        for(let itm of habitList){
+            itm.completed = false;
+        };
+    }
+    localStorage.setItem('habitList', JSON.stringify(habitList));
+    localStorage.setItem('lastHabitReset', today);
+
+};
 
 function updateProgress() {
     const ctx = document.getElementById('myChart');
@@ -281,7 +301,7 @@ function updateProgress() {
             labels: ['Remaining habits', 'Completed Habits'],
             datasets: [{
                 data: [totHabits - compHabits, compHabits],
-                backgroundColor: ['#e5e5e5', '#1ee0a9']
+                backgroundColor: ['#efefef', ' #ffb067'],
             }]
         },
         options: {
@@ -298,3 +318,31 @@ function updateProgress() {
 
 };
 
+function completedHabits(){
+    let completedHabits = JSON.parse(localStorage.getItem('completedHabits')) || [];
+    let habitList = JSON.parse(localStorage.getItem('habitList')) || [];
+    let today = new Date().toISOString().split('T')[0];
+    let comp = habitList.filter(c=> c.completed === true);
+    let totHabits = habitList.length;
+    let compHabitsLen = comp.length;
+    
+    let existingIndex = completedHabits.findIndex(entry => entry.date === today);
+
+    console.log(totHabits);
+    console.log(compHabitsLen);
+
+    const compItms = {
+        date : today,
+        completed : comp,
+        totalHabits : totHabits,
+        completedLen : compHabitsLen, 
+    }
+
+     if (existingIndex !== -1) {
+        completedHabits[existingIndex] = compItms; 
+    } else {
+        completedHabits.push(compItms);
+    }
+
+    localStorage.setItem('completedHabits', JSON.stringify(completedHabits));
+}
