@@ -55,12 +55,6 @@ main {
 
 
 
-.section2 {
-    height: 50vh;
-    width: 60%;
-    background-color: #ffffff;;
-}
-
 /* section 1 container  */
 
 .section1 {
@@ -71,7 +65,7 @@ main {
     justify-content: center;
     align-items: center;
     gap: 1rem;
-
+    
 }
 
 .box{
@@ -133,4 +127,20 @@ main {
 .det2{
     font-size: 0.9rem;
     color: #616161;
+}
+
+/* section 2 container  */
+
+.section2 {
+    height: 50vh;
+    width: 60%;
+    background-color: #ffffff;;
+}
+
+.chart-container{
+    height: 42vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
