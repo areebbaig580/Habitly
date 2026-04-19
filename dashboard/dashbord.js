@@ -3,9 +3,13 @@ const percent = document.querySelector('.complPercent');
 const percentDet = document.querySelector('.percentDet');
 const streakEl = document.querySelector('.streak');
 const tracked = document.querySelector('.tracked');
+const chartFilter = document.querySelector('.dropdownMain');
 
 back.addEventListener('click', (evt) => {
     window.location.href = "../index.html";
+});
+chartFilter.addEventListener('change', (evt) => {
+    updateChart(evt.target.value);
 });
 
 function progressSystem() {
@@ -64,21 +68,45 @@ function weeklyActivity() {
     return weekCompletion;
 };
 function monthlyActivity() {
-    //to - do
-}
-function updateChart() {
-    const ctx = document.getElementById('myChart');
-    let habitList = JSON.parse(localStorage.getItem('habitList')) || [];
-    let max = habitList.length;
-    let weekProgress = weeklyActivity();
+    let completedHabits = JSON.parse(localStorage.getItem('completedHabits'));
+    let today = new Date();
+    let month = today.getMonth();
+    let year = today.getFullYear();
+    let daysInMonth = new Date(year, month + 1, 0).getDate();
+    let FirstDate = new Date(year, month, 1);
+    let monthName = today.toLocaleString('default', { month: 'short' });
 
-    new Chart(ctx, {
+    let datedata = [];
+    let date = [];
+    for (let i = 0; i < daysInMonth; i++) {
+        let currDate = new Date(FirstDate);
+        currDate.setDate(FirstDate.getDate() + i);
+        let today = currDate.getDate();
+        let dateStr = currDate.toISOString().split('T')[0];
+
+        let totCompleted = completedHabits.filter(c => c.date === dateStr);
+
+        if (totCompleted.length > 0) {
+            date.push(`${today} ${monthName}`);
+            datedata.push(`${totCompleted[0].completedLen}`)
+        } else {
+            date.push(`${today} ${monthName}`);
+            datedata.push(0)
+        }
+
+    }
+    return { date, datedata };
+
+};
+const ctx = document.getElementById('myChart');
+let myChart;
+myChart =  new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            labels: [],
             datasets: [{
                 label: 'Habit Completed',
-                data: weekProgress,
+                data: [],
                 borderColor: '#e58123',
                 backgroundColor: '#ebc9a9',
                 fill: true
@@ -89,14 +117,37 @@ function updateChart() {
                 y: {
                     beginAtZero: true,
                     min: 0,
-                    max: max,
+                    max: 5,
                     ticks: {
-                        stepSize: 1   
+                        stepSize: 1
                     }
                 }
             }
         }
 
     });
+
+function updateChart(choice) {
+    let weekProgress = weeklyActivity();
+    let monthProgress = monthlyActivity();
+    let monthDate = monthProgress.date;
+    let dateData = monthProgress.datedata;
+
+    let label= ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    let data = weekProgress;
+
+    if (choice === 'Daily') {
+        label = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+        data = weekProgress;
+    } else if (choice === 'Monthly') {
+        label = monthDate;
+        data = dateData;
+    }
+
+    myChart.data.labels = label;
+    myChart.data.datasets[0].data = data;
+    myChart.update();
+
+   
 }
-updateChart();
+updateChart('Daily');

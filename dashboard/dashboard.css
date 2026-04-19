@@ -132,15 +132,29 @@ main {
 /* section 2 container  */
 
 .section2 {
-    height: 50vh;
+    height: 60vh;
     width: 60%;
     background-color: #ffffff;;
+    position: relative;
 }
 
 .chart-container{
-    height: 42vh;
+    height: 52vh;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.dropdown{
+    position: absolute;
+    right: 1.5rem;
+    top: 1rem;
+}
+.dropdownMain{
+     background-color: #fcfcfcb7;
+    border-radius: 5px;
+    outline: none;
+}
+.dropdownMain:hover{
+    transform: translateY(-2px);
 }
