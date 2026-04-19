@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,8 +9,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
-     <header>
+    <header>
         <div class="heading-box">
             <div class="heading1">Dashboard</div>
             <i class="fa-solid fa-arrow-right-from-bracket symbol"></i>
@@ -45,6 +47,15 @@
         </div>
         <div class="section2">
             <div class="heading">Daily activity</div>
+            <div class="dropdown">
+                <label for="filter">Filter by</label>
+                <select id="filter" name="filter" class="dropdownMain">
+                    <option value="Daily">Week</option>
+                    <option value="Monthly">Month</option>
+                    <option value="Year">Year</option>
+                </select>
+
+            </div>
             <div class="chart-container">
                 <canvas id="myChart"></canvas>
             </div>
@@ -55,4 +66,5 @@
     </main>
     <script src="dashbord.js"></script>
 </body>
+
 </html>
