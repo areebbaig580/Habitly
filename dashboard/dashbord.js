@@ -4,6 +4,7 @@ const percentDet = document.querySelector('.percentDet');
 const streakEl = document.querySelector('.streak');
 const tracked = document.querySelector('.tracked');
 const chartFilter = document.querySelector('.dropdownMain');
+const ctx2 = document.getElementById('barChart');
 
 back.addEventListener('click', (evt) => {
     window.location.href = "../index.html";
@@ -20,7 +21,7 @@ function progressSystem() {
     let yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
     let compHabits = habitList.filter(h => h.completed === true).length;
     let totHabits = habitList.length;
-    let percentage = (compHabits / totHabits) * 100;
+    let percentage = ((compHabits / totHabits) * 100).toFixed(1);
 
     if (percentage >= 60) {
         streeks = lastStreakDate === yesterday ? streeks + 1 : 1;
@@ -100,32 +101,32 @@ function monthlyActivity() {
 };
 const ctx = document.getElementById('myChart');
 let myChart;
-myChart =  new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: [],
-            datasets: [{
-                label: 'Habit Completed',
-                data: [],
-                borderColor: '#e58123',
-                backgroundColor: '#ebc9a9',
-                fill: true
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    min: 0,
-                    max: 5,
-                    ticks: {
-                        stepSize: 1
-                    }
+myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: [],
+        datasets: [{
+            label: 'Habit Completed',
+            data: [],
+            borderColor: '#e58123',
+            backgroundColor: '#ebc9a9',
+            fill: true
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true,
+                min: 0,
+                max: 5,
+                ticks: {
+                    stepSize: 1
                 }
             }
         }
+    }
 
-    });
+});
 
 function updateChart(choice) {
     let weekProgress = weeklyActivity();
@@ -133,7 +134,7 @@ function updateChart(choice) {
     let monthDate = monthProgress.date;
     let dateData = monthProgress.datedata;
 
-    let label= ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    let label = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     let data = weekProgress;
 
     if (choice === 'Daily') {
@@ -142,12 +143,63 @@ function updateChart(choice) {
     } else if (choice === 'Monthly') {
         label = monthDate;
         data = dateData;
-    }
+    } else if (choice === 'Year'){
+        label = [];
+        data = []
+    };
 
     myChart.data.labels = label;
     myChart.data.datasets[0].data = data;
     myChart.update();
 
-   
+
 }
 updateChart('Daily');
+
+function updateChart2() {
+    let habitList = JSON.parse(localStorage.getItem('habitList')) || [];
+    let completedHabits = JSON.parse(localStorage.getItem('completedHabits'));
+    let label = [];
+    let habitColor = []
+    for (let habit of habitList) {
+        label.push(habit.name);
+        habitColor.push(habit.color);
+    }
+    let today = new Date();
+    let refdate = new Date(today);
+    refdate.setDate(today.getDate() - 30);
+    dateStr = refdate.toISOString().split('T')[0];
+    
+
+    let habitsCompletedIn30 = completedHabits.filter(s=> s.date>=dateStr);
+    console.log(habitsCompletedIn30);
+
+    new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: label,
+            datasets: [{
+                label: 'Habit Score',
+                data: [4, 3, 5, 2 , 6, 5],
+                backgroundColor: habitColor,
+                borderColor: 'black',
+                 borderWidth: 1,
+                borderRadius: 4
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    max: 30,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            }
+        }
+    });
+};
+updateChart2();
