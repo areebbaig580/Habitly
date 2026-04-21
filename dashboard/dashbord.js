@@ -21,12 +21,14 @@ function progressSystem() {
     let yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
     let compHabits = habitList.filter(h => h.completed === true).length;
     let totHabits = habitList.length;
-    let percentage = ((compHabits / totHabits) * 100).toFixed(1);
-
+    let percentage = ((compHabits / totHabits) * 100).toFixed(1) ;
+    
     if (percentage >= 60) {
-        streeks = lastStreakDate === yesterday ? streeks + 1 : 1;
-        localStorage.setItem('streeks', JSON.stringify(streeks));
-        localStorage.setItem('lastStreakDate', today);
+        if (lastStreakDate === yesterday) {
+            streeks = streeks + 1;
+            localStorage.setItem('streeks', JSON.stringify(streeks));
+            localStorage.setItem('lastStreakDate', today);
+        };
     } else {
         if (lastStreakDate !== today && lastStreakDate !== yesterday) {
             streeks = 0;
@@ -100,6 +102,8 @@ function monthlyActivity() {
 
 };
 const ctx = document.getElementById('myChart');
+let habitList = JSON.parse(localStorage.getItem('habitList')) || [];
+let max = habitList.length;
 let myChart;
 myChart = new Chart(ctx, {
     type: 'line',
@@ -118,7 +122,7 @@ myChart = new Chart(ctx, {
             y: {
                 beginAtZero: true,
                 min: 0,
-                max: 5,
+                max: max,
                 ticks: {
                     stepSize: 1
                 }
@@ -143,7 +147,7 @@ function updateChart(choice) {
     } else if (choice === 'Monthly') {
         label = monthDate;
         data = dateData;
-    } else if (choice === 'Year'){
+    } else if (choice === 'Year') {
         label = [];
         data = []
     };
@@ -169,10 +173,27 @@ function updateChart2() {
     let refdate = new Date(today);
     refdate.setDate(today.getDate() - 30);
     dateStr = refdate.toISOString().split('T')[0];
-    
 
-    let habitsCompletedIn30 = completedHabits.filter(s=> s.date>=dateStr);
-    console.log(habitsCompletedIn30);
+    let habitsCompletedIn30 = completedHabits.filter(s => s.date >= dateStr);
+
+    let habitScore = {};
+
+    // inialising every habit to 0 
+
+    for (let habit of habitList) {
+        habitScore[habit.name] = 0;
+    };
+
+    for (let entry of habitsCompletedIn30) {
+        for (let completedHabit of entry.completed) {
+            if (habitScore.hasOwnProperty(completedHabit.name)) {
+                habitScore[completedHabit.name]++;
+            };
+        };
+    };
+
+    let data = label.map(name => habitScore[name]) || 0;
+
 
     new Chart(ctx2, {
         type: 'bar',
@@ -180,10 +201,10 @@ function updateChart2() {
             labels: label,
             datasets: [{
                 label: 'Habit Score',
-                data: [4, 3, 5, 2 , 6, 5],
+                data: data,
                 backgroundColor: habitColor,
                 borderColor: 'black',
-                 borderWidth: 1,
+                borderWidth: 1,
                 borderRadius: 4
             }]
         },
