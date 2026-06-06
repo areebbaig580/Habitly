@@ -11,31 +11,32 @@ resetHabits();
 
 function dateContainer() {
     let today = new Date();
-    let date = today.getDate();
-    let month = today.getMonth();
-    let year = today.getFullYear();
     let completedHabits = JSON.parse(localStorage.getItem('completedHabits')) || [];
+    let cardsHTML = '';
 
-    for (let i = date; i < date + 23; i++) {
+    for (let i = -21; i < 1; i++) {
 
-        let currDate = new Date(year, month, i - 21);
+        let currDate = new Date();
+        currDate.setDate(today.getDate() + i);
+
+        let displayDay = currDate.getDate();
         let currMonth = currDate.toLocaleString('default', { month: 'short' });
         let datestr = currDate.toISOString().split('T')[0];
         let data = completedHabits.find(c => c.date === datestr);
         let totHab = data ? data.totalHabits : 0;
         let compHab = data ? data.completedLen : 0;
         let percentage = (compHab / totHab) * 100 || 0;
-        
-        const dateCard = `
+        cardsHTML += `
         <div class="date">
-                    <div class="dtmain">${currDate.getDate() - 1}</div>
-                    <div class="dtbtm">${currMonth}</div>
-                    <div class ="progress-circle" style = "background: conic-gradient(#f7a04f ${percentage}%, #e0e0e0 ${percentage}% )"></div>
-                    </div>
+            <div class="dtmain">${displayDay}</div>
+            <div class="dtbtm">${currMonth}</div>
+            <div class="progress-circle" style="background: conic-gradient(#f7a04f ${percentage}%, #e0e0e0 ${percentage}% )"></div>
+        </div>
         `;
-        dateCont.innerHTML += dateCard;
     }
-};
+    
+    dateCont.innerHTML += cardsHTML;
+}
 
 addToggle.addEventListener('change', (evt) => {
     const form = document.querySelector('.form');
@@ -71,6 +72,7 @@ addToggle.addEventListener('change', (evt) => {
                         <div class="form-elm">
                         <label for="filter" class="label">Habit category</label>
                         <select id="habit-categ" name="habit-type" class="dropdown inputStyle">
+                            <option value="" disabled selected hidden>Select</option>
                             <option value="Fitness">Fitness</option>
                             <option value="Study">Study</option>
                             <option value="Self-care">Self care</option>
@@ -347,4 +349,12 @@ function completedHabits() {
     }
 
     localStorage.setItem('completedHabits', JSON.stringify(completedHabits));
-}
+};
+
+function deleteFunc() {
+    // delete tasks and habit function 
+};
+
+function habitFrequency() {
+    // custom and weekly habit frequency function 
+};
