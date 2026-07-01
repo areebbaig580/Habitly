@@ -34,9 +34,25 @@ function dateContainer() {
         </div>
         `;
     }
-    
     dateCont.innerHTML += cardsHTML;
 }
+function updateVisibleDates() {
+    const container = document.querySelector('.date-container');
+    const items = container.querySelectorAll('.date');
+    const containerRect = container.getBoundingClientRect();
+
+    items.forEach(item => {
+        const itemRect = item.getBoundingClientRect();
+        if (itemRect.left < containerRect.left) {
+            item.style.visibility = 'hidden';
+        } else {
+            item.style.visibility = 'visible';
+        }
+    });
+}
+
+window.addEventListener('resize', updateVisibleDates);
+updateVisibleDates(); 
 
 addToggle.addEventListener('change', (evt) => {
     const form = document.querySelector('.form');

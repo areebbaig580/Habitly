@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div class="box">
-                <div class="heading">Total habits</div>
+                <div class="heading">Total habit's</div>
                 <div class="icon icn-bg3"><i class="fa-solid fa-arrow-trend-up ic3"></i></div>
                 <div class="details">
                     <div class="det1 tracked"></div>
@@ -48,7 +48,7 @@
         <div class="section2">
             <div class="heading">Daily activity</div>
             <div class="dropdown">
-                <label for="filter">Filter by</label>
+                <label for="filter" class="filter">Filter by</label>
                 <select id="filter" name="filter" class="dropdownMain">
                     <option value="Daily">Week</option>
                     <option value="Monthly">Month</option>
@@ -61,7 +61,10 @@
             </div>
         </div>
         <div class="section2">
-
+            <div class="heading">30 Days Habits activity</div>
+            <div class="chart-container"> 
+                <canvas id="barChart"></canvas>
+            </div>
         </div>
     </main>
     <script src="dashbord.js"></script>

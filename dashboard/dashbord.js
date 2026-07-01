@@ -17,22 +17,30 @@ function progressSystem() {
     let habitList = JSON.parse(localStorage.getItem('habitList')) || [];
     let streeks = JSON.parse(localStorage.getItem('streeks')) || 0;
     let lastStreakDate = localStorage.getItem('lastStreakDate');
+    console.log(lastStreakDate);
     let today = new Date().toISOString().split('T')[0];
-    let yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+    let yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0]
     let compHabits = habitList.filter(h => h.completed === true).length;
     let totHabits = habitList.length;
-    let percentage = ((compHabits / totHabits) * 100).toFixed(1) ;
-    
+    let percentage = totHabits === 0 ? 0 : ((compHabits / totHabits) * 100).toFixed(1);
+
+    if (lastStreakDate !== today && lastStreakDate !== yesterday && lastStreakDate !== null) {
+        streeks = 0;
+        localStorage.setItem('streeks', JSON.stringify(streeks));
+    };
+
     if (percentage >= 60) {
-        if (lastStreakDate === yesterday) {
-            streeks = streeks + 1;
+    
+        if (lastStreakDate !== today) {
+
+            if (lastStreakDate === yesterday) {
+                streeks = streeks + 1; 
+            } else {
+                streeks = 1; 
+            }
+
             localStorage.setItem('streeks', JSON.stringify(streeks));
             localStorage.setItem('lastStreakDate', today);
-        };
-    } else {
-        if (lastStreakDate !== today && lastStreakDate !== yesterday) {
-            streeks = 0;
-            localStorage.setItem('streeks', JSON.stringify(streeks));
         }
     };
 
@@ -118,6 +126,8 @@ myChart = new Chart(ctx, {
         }]
     },
     options: {
+        responsive:true,
+         maintainAspectRatio: false,
         scales: {
             y: {
                 beginAtZero: true,
@@ -211,6 +221,7 @@ function updateChart2() {
         options: {
             indexAxis: 'y',
             responsive: true,
+             maintainAspectRatio: false,
             scales: {
                 x: {
                     beginAtZero: true,

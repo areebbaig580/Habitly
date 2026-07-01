@@ -58,28 +58,28 @@ main {
 /* section 1 container  */
 
 .section1 {
-    height: 18vh;
+    height: fit-content;
     width: 60%;
     margin-top: 1rem;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 1rem;
-    
 }
 
 .box{
-    height: 18vh;
+    height: fit-content;
     width: 33%;
     background-color: #464646;
     background-color: #ffffff;
     position: relative;
+    padding: 1rem;
 }
 
 .heading {
     font-size: 1.2rem;
     font-weight: 600;
-    padding: 0.5rem 1rem;
+    padding-left: 0.5rem;
     color: #ea7406;
 }
 .icon{
@@ -136,6 +136,8 @@ main {
     width: 60%;
     background-color: #ffffff;;
     position: relative;
+    padding-top: 1rem;
+    padding-left: 0.5rem;
 }
 
 .chart-container{
@@ -151,10 +153,84 @@ main {
     top: 1rem;
 }
 .dropdownMain{
-     background-color: #fcfcfcb7;
+    background-color: #fcfcfcb7;
     border-radius: 5px;
     outline: none;
 }
 .dropdownMain:hover{
     transform: translateY(-2px);
+}
+@media (max-width:1024px) {
+    .heading-box,.section1,.section2{
+        width: 80%;
+    }
+    
+}
+@media (max-width:870px){
+    .heading-box,.section1,.section2{
+        width: 90%;
+    }
+    .details{
+        margin-left: 0.6rem;
+    }
+}
+@media (max-width:630px){
+    .heading1{
+        font-size: 1.3rem;
+    }
+    .icon{
+        height: 40px;
+        width: 40px;
+    }
+    .ic1,.ic2,.ic3{
+        font-size: 1.2rem;
+    }
+    .heading{
+        font-size: 1rem;
+    }
+    .det1{
+        font-size: 1.2rem;
+    }
+    .det2{
+        font-size: 0.6rem;
+    }
+    .filter{
+        font-size: 0.8rem;
+    }
+    .dropdownMain{
+        font-size: 0.8rem;
+    }
+}
+@media (max-width:580px) {
+    .box{
+        padding: 6px;
+    }
+    .heading{
+        padding-left: 0;
+    }
+    .icon{
+        right: 0.5rem;
+    }
+}
+@media (max-width:480px){
+    .section1{
+        flex-wrap: wrap;
+    }
+    .box{
+        width: 45%;
+        padding: 1rem;
+    }
+    .dropdown{
+        right: 0.5rem;
+    }
+
+}
+@media (max-width:370px){
+    .filter{
+        display: none;
+    }
+    .box{
+        width: 90%;
+        padding: 1rem;
+    }
 }
