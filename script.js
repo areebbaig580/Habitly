@@ -52,7 +52,7 @@ function updateVisibleDates() {
 }
 
 window.addEventListener('resize', updateVisibleDates);
-updateVisibleDates(); 
+updateVisibleDates();
 
 addToggle.addEventListener('change', (evt) => {
     const form = document.querySelector('.form');
@@ -150,16 +150,24 @@ function addTask() {
 
 function showTasks() {
     let list = JSON.parse(localStorage.getItem('toDoList')) || [];
-
-    for (let item of list) {
-        const card = `  <div class="itm-ctr">
-                        <div class= "prior ${item.priority}"></div>
-                            <div class="task ${item.completed ? 'completed' : ''}">${item.description}</div>
-                            <div class="check"><i class="fa-regular ${item.completed ? 'fa-square-check' : 'fa-square'}"></i></div>
-                        </div>           
-        `
+    if (list.length === 0) {
+        card = `<div class="empty-state">
+                    <p>No Tasks yet</p>
+                </div>`
         listContainer.insertAdjacentHTML('beforeend', card);
+    } else {
+
+        for (let item of list) {
+            const card = `  <div class="itm-ctr">
+                            <div class= "prior ${item.priority}"></div>
+                                <div class="task ${item.completed ? 'completed' : ''}">${item.description}</div>
+                                <div class="check"><i class="fa-regular ${item.completed ? 'fa-square-check' : 'fa-square'}"></i></div>
+                            </div>           
+            `
+            listContainer.insertAdjacentHTML('beforeend', card);
+        }
     }
+
 
     const checkBox = document.querySelectorAll('.check');
 
@@ -241,23 +249,30 @@ function addHabit() {
 
 function showHabits() {
     let habitList = JSON.parse(localStorage.getItem('habitList')) || [];
-
-    for (let itm of habitList) {
-        card = `<div class="habit-ctr">
-                        <div class="left">
-                            <div class="left-top">
-                                <div class = "habit-color"></div>
-                                <div class="h-name ${itm.completed ? 'h-name-clr' : ''}">${itm.name}</div>
-                            </div>
-                        </div>
-                        <div class="right">
-                            <div class="h-check"><i class="fa-regular ${itm.completed ? 'fa-square-check' : 'fa-square'}"></i></div>
-                            <div class="quant">${itm.goalAmount} ${itm.goalUnit}</div>
-                        </div>
-                    </div>`
-
+    if (habitList.length === 0) {
+        card = `<div class="empty-state">
+                    <p>No habits yet</p>
+                </div>`
         habitsContainer.insertAdjacentHTML('beforeend', card);
-    };
+    } else {
+        for (let itm of habitList) {
+
+            card = `<div class="habit-ctr">
+                            <div class="left">
+                                <div class="left-top">
+                                    <div class = "habit-color"></div>
+                                    <div class="h-name ${itm.completed ? 'h-name-clr' : ''}">${itm.name}</div>
+                                </div>
+                            </div>
+                            <div class="right">
+                                <div class="h-check"><i class="fa-regular ${itm.completed ? 'fa-square-check' : 'fa-square'}"></i></div>
+                                <div class="quant">${itm.goalAmount} ${itm.goalUnit}</div>
+                            </div>
+                        </div>`
+
+            habitsContainer.insertAdjacentHTML('beforeend', card);
+        };
+    }
     const habChBox = document.querySelectorAll('.h-check');
 
     habChBox.forEach((box, index) => {

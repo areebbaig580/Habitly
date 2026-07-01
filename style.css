@@ -149,6 +149,16 @@ main {
     background-color: #fcfcfc;
 }
 
+.empty-state {
+  height: 18vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #070707; 
+  font-size: 1.1rem;
+}
+
 /* second section */
 .ctr1 {
     width: 50%;
@@ -455,6 +465,15 @@ main {
 }
 
 @media (max-width:1024px) {
+    .chart-container{
+        height: 25vh;
+    }
+    .habits-ctr{
+        height: 40vh;
+    }
+    .comp-ctr{
+        height: fit-content;
+    }
     .date-container {
         width: 90%;
     }
@@ -463,25 +482,26 @@ main {
         width: 90%;
     }
 }
-@media (max-width:910px){
-    .chart-container{
-        flex-direction: column;
-        margin-top: 3rem;
-        margin-bottom: 3rem;
+
+@media (max-width:910px) {
+    .chart-container {
+        height: 18vh;
     }
-    
-} 
+
+    .comp-ctr{
+        height: 40vh;
+        padding-bottom: 1rem;
+    }
+    .habits-ctr {
+        height: 40vh;
+    }
+
+}
 
 @media (max-width:820px) {
-    .comp-ctr{
-        height: 30vh;
-    }
-    .habits-ctr{
-        height: 30vh;
-    }
+
     .date-container {
         padding-right: 1rem;
-        gap: 1rem;
     }
 
     .section {
@@ -491,12 +511,15 @@ main {
 
 @media (max-width:650px) {
 
-    .heading{
+    .heading {
         font-size: 1rem;
     }
-    .h-name,.task{
+
+    .h-name,
+    .task {
         font-size: 0.9rem;
     }
+
     .section {
         height: auto;
         display: flex;
@@ -513,9 +536,11 @@ main {
         width: 90%;
         height: fit-content;
     }
+    .habits-ctr,.ctr1{
+        min-height: 20vh;
+    }
 
     .comp-ctr {
-        width: 90%;
-        height: 28vh;
+        padding-bottom: 0.5rem;
     }
 }
