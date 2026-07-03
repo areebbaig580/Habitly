@@ -8,6 +8,7 @@ addTask();
 resetTasks();
 updateProgress();
 resetHabits();
+// showTasks()
 
 function dateContainer() {
     let today = new Date();
@@ -167,8 +168,6 @@ function showTasks() {
             listContainer.insertAdjacentHTML('beforeend', card);
         }
     }
-
-
     const checkBox = document.querySelectorAll('.check');
 
     checkBox.forEach((box, index) => {
@@ -192,8 +191,63 @@ function showTasks() {
             localStorage.setItem('toDoList', JSON.stringify(list));
         });
     });
-};
+}
 showTasks();
+
+const edit = document.querySelector('.edit');
+const delT = document.querySelector('.delete-task');
+
+edit.addEventListener('click', (evt) => {
+    delT.style.display = 'block';
+
+    editTask();
+})
+function editTask() {
+    let list = JSON.parse(localStorage.getItem('toDoList')) || [];
+    listContainer.innerHTML = ``;
+    for (let item of list) {
+        const card = `  <div class="itm-ctr">
+                                <div class="check2"><i class="fa-regular  fa-square"></i></div>
+                                <div class= "prior ${item.priority}"></div>
+                                <div class="task ${item.completed ? 'completed' : ''}">${item.description}</div>
+                                <div class="check"><i class="fa-regular ${item.completed ? 'fa-square-check' : 'fa-square'}"></i></div>
+                            </div>           
+            `
+        listContainer.insertAdjacentHTML('beforeend', card);
+    }
+    const check2 = document.querySelectorAll('.check2');
+    let indexToDelete = [];
+
+    check2.forEach((box, index) => {
+        let click = 'notActive';
+        box.addEventListener('click', (evt) => {
+
+            let icon = box.querySelector('i');
+
+            if (click === 'notActive') {
+                icon.classList.remove('fa-square');
+                icon.classList.add('fa-square-check');
+                click = 'active';
+                box.nextElementSibling.nextElementSibling.style.color = "#464646b7";
+                indexToDelete.push(index);
+            } else {
+                icon.classList.remove('fa-square-check');
+                icon.classList.add('fa-square');
+                click = 'notActive';
+                box.nextElementSibling.nextElementSibling.style.color = "";
+                indexToDelete = indexToDelete.filter(idx => idx !== index);
+            }
+
+            console.log(indexToDelete);
+        })
+    });
+
+    delT.addEventListener('click', (evt) => {
+        const filteredList = list.filter((_, i) => !indexToDelete.includes(i));
+        localStorage.setItem('toDoList', JSON.stringify(filteredList));
+        window.location.reload();
+    })
+}
 
 function resetTasks() {
     let today = new Date().toISOString().split('T')[0];
@@ -297,6 +351,69 @@ function showHabits() {
     });
 };
 showHabits();
+const editHab = document.querySelector('.edit-habit');
+const delHab = document.querySelector('.delete-hab');
+editHab.addEventListener('click', (evt) => {
+    delHab.style.display = 'block';
+
+    editHabit();
+})
+function editHabit() {
+    let habitList = JSON.parse(localStorage.getItem('habitList')) || [];
+    habitsContainer.innerHTML = '';
+
+    for (let itm of habitList) {
+
+        card = `<div class="habit-ctr">
+                            <div class="left">
+                            <div class="check3"><i class="fa-regular  fa-square"></i></div>
+                                <div class="left-top">
+                                    
+                                    <div class="h-name ${itm.completed ? 'h-name-clr' : ''}">${itm.name}</div>
+                                </div>
+                            </div>
+                            <div class="right">
+                                <div class="h-check"><i class="fa-regular ${itm.completed ? 'fa-square-check' : 'fa-square'}"></i></div>
+                                <div class="quant">${itm.goalAmount} ${itm.goalUnit}</div>
+                            </div>
+                        </div>`
+
+        habitsContainer.insertAdjacentHTML('beforeend', card);
+    };
+
+    const check3 = document.querySelectorAll('.check3');
+    let indexToDelete = [];
+
+    check3.forEach((box, index) => {
+        let click = 'notActive';
+        box.addEventListener('click', (evt) => {
+
+            let icon = box.querySelector('i');
+
+            if (click === 'notActive') {
+                icon.classList.remove('fa-square');
+                icon.classList.add('fa-square-check');
+                click = 'active';
+                box.nextElementSibling.firstElementChild.style.color = '#464646b7';
+                indexToDelete.push(index);
+            } else {
+                icon.classList.remove('fa-square-check');
+                icon.classList.add('fa-square');
+                click = 'notActive';
+                box.nextElementSibling.firstElementChild.style.color = '';
+                indexToDelete = indexToDelete.filter(idx => idx !== index);
+            }
+
+            console.log(indexToDelete);
+        })
+    });
+
+    delHab.addEventListener('click', (evt) => {
+        const filteredList = habitList.filter((_, i) => !indexToDelete.includes(i));
+        localStorage.setItem('habitList', JSON.stringify(filteredList));
+        window.location.reload();
+    })
+}
 
 function resetHabits() {
     let habitList = JSON.parse(localStorage.getItem('habitList')) || [];
